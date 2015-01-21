@@ -1,29 +1,40 @@
 var Mandelbrot = (function(){
 	var w = 400;
 	var h =  400;
-
+	
+	
 	var API = {};	
 	
-	API.plot = function (){
+	API.complexcomp = function (){
+		var c = math.complex(2,0.51);
+		console.log("Complex num:"+c);
+		console.log("modulus: "+math.norm(c));
+	};
 
+	API.plot = function (svg){
 		var svg = d3.select("body").append("svg").attr("width", w).attr("height", h);
-		var mandelset = [];
 		var z = 0;
-		var scale = 100;
-		var rounds = 3500;
+		var scale = 60;
+		var rounds = 1000;	
 		for(c_re=-200;c_re<=200;c_re++){
 		    for(c_im=-200;c_im<=200;c_im++){
 		        var c = math.complex(c_re*0.01,c_im*0.01);
+		        
+
 		        for(t=0;t<=rounds;t++){
 		            z = math.add(math.square(z),c);
+		            console.log("Z: "+z);
+		            if(!isFinite(z.im) || !isFinite(z.re)){
+		            	break;
+		            }
 		        }
-		        if (math.norm(z) <= 2){
-		            mandelset.push(z);
+				if (isFinite(math.norm(z))){
 		            svg.append("rect")
 		            .attr("x",(z.re)*scale+(w/2))
 		            .attr("y",(z.im)*scale+(h/2))
-		            .attr("width",1).attr("height",1).attr("fill","black");
-		        }
+		            .attr("width",1).attr("height",1).attr("fill","black");					
+				}		        
+		        
 		        z = 0;
 		    }
 		}
