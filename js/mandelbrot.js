@@ -11,34 +11,42 @@ var Mandelbrot = (function(){
 		console.log("modulus: "+math.norm(c));
 	};
 
-	API.plot = function (svg){
+	API.plot = function (){
 		var svg = d3.select("body").append("svg").attr("width", w).attr("height", h);
 		var z = 0;
-		var scale = 60;
-		var rounds = 1000;	
-		for(c_re=-200;c_re<=200;c_re++){
-		    for(c_im=-200;c_im<=200;c_im++){
-		        var c = math.complex(c_re*0.01,c_im*0.01);
-		        
-
-		        for(t=0;t<=rounds;t++){
-		            z = math.add(math.square(z),c);
-		            console.log("Z: "+z);
-		            if(!isFinite(z.im) || !isFinite(z.re)){
-		            	break;
-		            }
-		        }
-				if (isFinite(math.norm(z))){
-		            svg.append("rect")
-		            .attr("x",(z.re)*scale+(w/2))
-		            .attr("y",(z.im)*scale+(h/2))
-		            .attr("width",1).attr("height",1).attr("fill","black");					
-				}		        
-		        
-		        z = 0;
-		    }
-		}
+		var scale = 70;
+		var rounds = 200;
+		
+			r = math.random(0,255);
+			g = math.random(0,255);
+			b = math.random(0,255);
+			for(c_re=-200;c_re<=200;c_re++){
+			    for(c_im=-200;c_im<=0;c_im++){
+			        var c = math.complex(c_re*0.01,c_im*0.01);
+			        for(t=0;t<=rounds;t++){
+			            z = math.add(math.square(z),c);
+			            console.log("Z: "+z);
+			            if(!isFinite(z.im) || !isFinite(z.re)){
+			            	break;
+			            }
+			        }
+					if (isFinite(math.norm(z))){
+			            svg.append("rect")
+			            .attr("x",(c.re)*scale+(w/2))
+			            .attr("y",(c.im)*(-1)*scale+(h/2))
+			            .attr("width",1).attr("height",1).attr("fill",d3.rgb(r,g,b));					
+			            svg.append("rect")
+			            .attr("x",(c.re)*scale+(w/2))
+			            .attr("y",(c.im)*scale+(h/2))
+			            .attr("width",1).attr("height",1).attr("fill",d3.rgb(r,g,b));			            
+					}		        
+			        z = 0;
+			    }
+			}
+		
 	};
+
+
 
 	API.noise = function (){	
 		console.log("noise loaded");
