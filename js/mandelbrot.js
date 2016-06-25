@@ -1,6 +1,6 @@
 var Mandelbrot = (function(){
-	var w = 400;
-	var h =  400;
+	var w = 1200;
+	var h =  600;
 	
 	
 	var API = {};	
@@ -14,18 +14,17 @@ var Mandelbrot = (function(){
 	API.plot = function (){
 		var svg = d3.select("body").append("svg").attr("width", w).attr("height", h);
 		var z = 0;
-		var scale = 70;
-		var rounds = 200;
+		var scale = 120;
+		var rounds = 40;
 		
-			r = math.random(0,255);
-			g = math.random(0,255);
-			b = math.random(0,255);
+			r = 0;
+			g = 0;
+			b = 0;
 			for(c_re=-200;c_re<=200;c_re++){
 			    for(c_im=-200;c_im<=0;c_im++){
 			        var c = math.complex(c_re*0.01,c_im*0.01);
 			        for(t=0;t<=rounds;t++){
 			            z = math.add(math.square(z),c);
-			            console.log("Z: "+z);
 			            if(!isFinite(z.im) || !isFinite(z.re)){
 			            	break;
 			            }
